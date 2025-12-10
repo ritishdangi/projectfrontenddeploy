@@ -1,0 +1,237 @@
+<div id="top"></div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="container nav-inner">
+    <div class="brand">
+      <img
+        src="assets/images/logo.png"
+        alt="Real Trust logo"
+        class="brand-logo"
+      />
+      <span class="brand-text">Real Trust</span>
+    </div>
+
+    <nav class="nav-links">
+      <a *ngFor="let link of navLinks" [href]="link.href">
+        {{ link.label }}
+      </a>
+    </nav>
+
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section id="contact" class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <span class="hero-pill">Consultation • Design • Marketing</span>
+      <h1>Consultation, Design &amp; Marketing</h1>
+      <p>
+        Not your average realtor landing page – a clean, conversion-ready layout
+        to showcase projects, earn client trust and collect qualified leads.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#project" class="btn btn-primary">Explore Projects</a>
+        <a href="#project" class="btn btn-ghost">View Our Work</a>
+      </div>
+
+      <div class="hero-meta">
+        <span>✓ 50+ completed projects</span>
+        <span>✓ Trusted by startups & brands</span>
+      </div>
+    </div>
+
+    <div class="hero-side">
+      <div class="hero-photo"></div>
+
+      <div class="contact-box hero-form">
+        <h2>Get a Free Consultation</h2>
+
+        <form (ngSubmit)="submitContact()">
+          <input
+            type="text"
+            [(ngModel)]="contact.fullName"
+            name="fullName"
+            placeholder="Full Name"
+            required
+          />
+
+          <input
+            type="email"
+            [(ngModel)]="contact.email"
+            name="email"
+            placeholder="Enter Email Address"
+            required
+          />
+
+          <input
+            type="text"
+            [(ngModel)]="contact.mobile"
+            name="mobile"
+            placeholder="Mobile Number"
+            required
+          />
+
+          <input
+            type="text"
+            [(ngModel)]="contact.city"
+            name="city"
+            placeholder="Area, City"
+            required
+          />
+
+          <button class="contact-btn" type="submit">Get Quick Quote</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about-overview">
+  <div class="container about-inner">
+    <div class="about-text">
+      <h2 class="section-title small">Not Your Average Realtor</h2>
+      <p>
+        We blend real-estate expertise with design-first thinking to craft
+        landing pages that feel premium and perform even better.
+      </p>
+      <p>
+        Backed by modern tech and a polished admin panel, you can manage
+        projects, clients and enquiries without touching the code.
+      </p>
+    </div>
+
+    <div class="about-visual">
+      <div *ngFor="let img of aboutImages" class="circle {{ img.class }}">
+        <img [src]="img.src" alt="" />
+      </div>
+
+      <span class="orb orb-blue"></span>
+      <span class="orb orb-orange"></span>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section why-section">
+  <div class="container">
+    <h2 class="section-title">Why Choose Us?</h2>
+
+    <div class="why-grid">
+      <div class="why-card" *ngFor="let card of whyCards">
+        <div class="why-icon">{{ card.icon }}</div>
+        <h3>{{ card.title }}</h3>
+        <p>{{ card.desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT US COLLAGE -->
+<section id="about" class="section about-us">
+  <div class="about-decor about-decor-left"></div>
+  <div class="about-decor about-decor-right"></div>
+
+  <div class="container about-collage">
+    <div class="about-collage-grid">
+      <div
+        class="about-card"
+        *ngFor="let card of aboutImages"
+        [class]="'about-card ' + card.class"
+      >
+        <img [src]="card.src" alt="" />
+      </div>
+    </div>
+
+    <div class="about-text">
+      <h2 class="section-title small centered">About Us</h2>
+      <p class="about-copy">
+        Fifteen years of experience in real estate, excellent customer service
+        and a commitment to work hard, listen and follow through.
+      </p>
+      <a href="#contact" class="btn btn-ghost about-btn">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- OUR PROJECTS -->
+<section id="project" class="section projects-section">
+  <div class="container">
+    <h2 class="section-title">Our Projects</h2>
+    <p class="section-subtitle">
+      These cards will be populated from your backend.
+    </p>
+
+    <div class="projects-grid">
+      <div class="project-card" *ngFor="let p of projects">
+        <div class="project-img">
+          <img [src]="p.image" alt="p.name || 'project image'" />
+        </div>
+
+        <h3 class="project-title">{{ p.name }}</h3>
+        <p class="project-desc">{{ p.description }}</p>
+        <button class="read-more">Read More</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HAPPY CLIENTS -->
+<section id="clients" class="section clients-section">
+  <div class="container">
+    <h2 class="section-title">Happy Clients</h2>
+    <p class="section-subtitle">Social proof from your backend.</p>
+
+    <div class="clients-grid">
+      <div class="client-card" *ngFor="let c of clients">
+        <div class="client-img">
+          <img *ngIf="c.image" [src]="c.image" alt="{{ c.name }}" />
+        </div>
+
+        <p class="client-desc">{{ c.description }}</p>
+        <h4 class="client-name">{{ c.name }}</h4>
+        <span class="client-role">{{ c.designation }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter" class="newsletter-section">
+  <div class="container">
+    <h2>Stay in the Loop</h2>
+    <p class="section-subtitle light">Capture newsletter subscriptions here.</p>
+
+    <div class="newsletter-box">
+      <input
+        type="email"
+        [(ngModel)]="newsletterEmail"
+        placeholder="Enter Email Address"
+      />
+      <button class="subscribe-btn" type="button" (click)="subscribeNewsletter()">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-left">All Rights Reserved 2023</div>
+
+    <div class="footer-brand">
+      <img src="assets/images/logo.png" alt="Real Trust logo" />
+      <span>Real Trust</span>
+    </div>
+
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter" class="social-btn">X</a>
+      <a href="#" aria-label="Instagram" class="social-btn">IG</a>
+      <a href="#" aria-label="Facebook" class="social-btn">f</a>
+      <a href="#" aria-label="LinkedIn" class="social-btn">in</a>
+    </div>
+  </div>
+</footer>

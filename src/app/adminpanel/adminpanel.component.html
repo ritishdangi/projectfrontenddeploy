@@ -1,0 +1,349 @@
+<div class="admin-layout" (keydown)="onKeydown($event)">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      <img src="assets/images/logo.png" class="sidebar__logo-mark">
+      <span class="sidebar__logo-text">RealTrust Admin</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <button 
+        *ngFor="let item of sidebarItems"
+        class="sidebar__link"
+        [class.is-active]="activeSection === item.id"
+        (click)="switchSection(item.id, item.title)">
+        <span class="sidebar__icon">{{ item.icon }}</span>
+        <span>{{ item.title }}</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- ============ MAIN AREA ============ -->
+  <main class="main">
+
+    <!-- ============ TOPBAR ============ -->
+    <header class="topbar">
+      <div class="topbar__title">
+        <h1>{{ topbarTitle }}</h1>
+        <p>Overview of projects, clients and leads.</p>
+      </div>
+
+      <div class="topbar__profile">
+        <div class="topbar__avatar">A</div>
+        <div class="topbar__details">
+          <span class="topbar__name">Admin User</span>
+          <span class="topbar__role">Super Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ CONTENT WRAPPER ============ -->
+    <div class="content">
+
+      <!-- ===== DASHBOARD SECTION ===== -->
+      <section 
+        id="dashboard-section" 
+        class="content-section"
+        [class.is-visible]="activeSection === 'dashboard-section'">
+
+        <div class="section-header">
+          <h2>Overview</h2>
+        </div>
+
+        <div class="card-grid">
+          <article class="stat-card" *ngFor="let stat of dashboardStats">
+            <h3>{{ stat.title }}</h3>
+            <p class="stat-card__value">{{ stat.value }}</p>
+            <p class="stat-card__hint">{{ stat.hint }}</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== PROJECTS SECTION ===== -->
+      <section 
+        id="projects-section" 
+        class="content-section"
+        [class.is-visible]="activeSection === 'projects-section'">
+
+        <div class="section-header">
+          <div>
+            <h2>Projects</h2>
+            <p>Manage projects shown in "Our Projects" section.</p>
+          </div>
+          <button class="btn btn-primary" (click)="openModal('project')">
+            + Add Project
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Project Name</th>
+                <th>Description</th>
+                <th style="width: 120px;">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let p of projects">
+                <td>
+                  <div class="thumb">
+                    <img [src]="p.image" alt="Project" />
+                  </div>
+                </td>
+                <td>{{ p.name }}</td>
+                <td>{{ p.description }}</td>
+                <td class="table-actions">
+                  <button class="btn btn-ghost" (click)="openModal('project')">Edit</button>
+                  <button class="btn btn-ghost btn-danger" (click)="deleteProject(p.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== CLIENTS SECTION ===== -->
+      <section 
+        id="clients-section" 
+        class="content-section"
+        [class.is-visible]="activeSection === 'clients-section'">
+
+        <div class="section-header">
+          <div>
+            <h2>Clients</h2>
+            <p>Manage clients shown in the slider.</p>
+          </div>
+          <button class="btn btn-primary" (click)="openModal('client')">
+            + Add Client
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Description</th>
+                <th style="width: 120px;">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let c of clients">
+                <td>
+                  <div class="avatar-small">
+                    <img [src]="c.image" />
+                  </div>
+                </td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.designation }}</td>
+                <td>{{ c.description }}</td>
+                <td class="table-actions">
+                  <button class="btn btn-ghost" (click)="openModal('client')">Edit</button>
+                  <button class="btn btn-ghost btn-danger" (click)="deleteClient(c.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== CONTACTS SECTION ===== -->
+      <section 
+        id="contacts-section" 
+        class="content-section"
+        [class.is-visible]="activeSection === 'contacts-section'">
+
+        <div class="section-header">
+          <h2>Contact Form Responses</h2>
+          <p>Submissions from the consultation form.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>City</th>
+                <!-- <th>Submitted A/t</th> -->
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let c of contacts">
+                <td>{{ c.fullName }}</td>
+                <td>{{ c.email }}</td>
+                <td>{{ c.mobile }}</td>
+                <td>{{ c.city }}</td>
+                <td>{{ c.submittedAt }}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== SUBSCRIBERS SECTION ===== -->
+      <section 
+        id="subscribers-section" 
+        class="content-section"
+        [class.is-visible]="activeSection === 'subscribers-section'">
+
+        <div class="section-header">
+          <h2>Newsletter Subscribers</h2>
+          <p>Email list from website footer.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Subscribed At</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let s of subscribers">
+                <td>{{ s.email }}</td>
+                <td>{{ s.subscribedAt }}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+
+<!-- ============ PROJECT MODAL ============ -->
+<div 
+  id="project-modal" 
+  class="modal" 
+  [class.is-open]="modals.project"
+  (click)="overlayClose($event, 'project')">
+
+  <div class="modal__overlay"></div>
+
+  <div class="modal__content">
+    <header class="modal__header">
+      <h3>Add / Edit Project</h3>
+      <button class="modal__close" (click)="closeModal('project')">✕</button>
+    </header>
+
+    <form class="form" (ngSubmit)="saveProject()" #projectForm="ngForm">
+
+      <div class="form__group">
+        <label>Project Image</label>
+        <input type="file" (change)="onProjectImageSelected($event)" />
+      </div>
+
+      <div class="form__group">
+        <label>Project Name</label>
+        <input 
+          type="text"
+          [(ngModel)]="projectFormData.name"
+          name="projectName"
+          placeholder="Enter project name"
+          required
+        />
+      </div>
+
+      <div class="form__group">
+        <label>Description</label>
+        <textarea
+          rows="3"
+          [(ngModel)]="projectFormData.description"
+          name="projectDescription"
+          required
+        ></textarea>
+      </div>
+
+      <footer class="modal__footer">
+        <button type="button" class="btn btn-outline" (click)="closeModal('project')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Project</button>
+      </footer>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!-- ============ CLIENT MODAL ============ -->
+<div 
+  id="client-modal" 
+  class="modal"
+  [class.is-open]="modals.client"
+  (click)="overlayClose($event, 'client')">
+
+  <div class="modal__overlay"></div>
+
+  <div class="modal__content">
+    <header class="modal__header">
+      <h3>Add / Edit Client</h3>
+      <button class="modal__close" (click)="closeModal('client')">✕</button>
+    </header>
+
+    <!-- IMPORTANT: ngSubmit + template reference -->
+    <form class="form" (ngSubmit)="saveClient()" #clientForm="ngForm">
+
+      <div class="form__group">
+        <label>Client Image</label>
+        <input type="file" (change)="onClientImageSelected($event)" />
+      </div>
+
+      <div class="form__group">
+        <label>Client Name</label>
+        <input 
+          type="text"
+          name="clientName"
+          [(ngModel)]="clientFormData.name"
+          placeholder="Enter client name"
+          required
+        />
+      </div>
+
+      <div class="form__group">
+        <label>Designation</label>
+        <input
+          type="text"
+          name="clientDesignation"
+          [(ngModel)]="clientFormData.designation"
+          placeholder="Ex: CEO, Developer"
+          required
+        />
+      </div>
+
+      <div class="form__group">
+        <label>Description</label>
+        <textarea
+          rows="3"
+          name="clientDescription"
+          [(ngModel)]="clientFormData.description"
+          required
+        ></textarea>
+      </div>
+
+      <footer class="modal__footer">
+        <button type="button" class="btn btn-outline" (click)="closeModal('client')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Client</button>
+      </footer>
+    </form>
+  </div>
+</div>
+
+
