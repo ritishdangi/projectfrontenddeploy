@@ -4,7 +4,7 @@
     {
       "src": "angular.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist/ecandidate" }
+      "config": { "distDir": "dist/ecandidate/browser" }
     }
   ],
   "routes": [
